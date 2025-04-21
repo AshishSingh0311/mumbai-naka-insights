@@ -24,6 +24,13 @@ export default {
 				ring: 'hsl(var(--ring))',
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
+                traffic: {
+                    collection: '#3b82f6',
+                    storage: '#10b981',
+                    analysis: '#8b5cf6',
+                    report: '#f59e0b',
+                    access: '#ef4444'
+                },
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))'

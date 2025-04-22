@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ClipboardList, Database, BarChart, FileText, Users, Upload } from "lucide-react";
@@ -11,7 +12,7 @@ import StakeholdersSection from "@/components/StakeholdersSection";
 import DataUploadSection from "@/components/DataUploadSection";
 
 const Index = () => {
-  const [activeTab, setActiveTab] = useState("overview");
+  const [activeTab, setActiveTab] = useState("upload");
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
@@ -24,14 +25,14 @@ const Index = () => {
           </p>
         </div>
 
-        <Tabs defaultValue="overview" value={activeTab} onValueChange={setActiveTab} className="mb-10">
+        <Tabs defaultValue="upload" value={activeTab} onValueChange={setActiveTab} className="mb-10">
           <TabsList className="grid grid-cols-2 md:grid-cols-7 gap-2 mb-8">
             <TabsTrigger value="overview" className="font-medium">
               Overview
             </TabsTrigger>
-            <TabsTrigger value="upload" className="font-medium flex items-center gap-2">
+            <TabsTrigger value="upload" className="font-medium flex items-center gap-2 bg-blue-50 text-blue-700 data-[state=active]:bg-blue-600">
               <Upload size={16} />
-              <span className="hidden sm:inline">Upload Data</span>
+              <span className="hidden sm:inline">Upload & Analyze</span>
               <span className="sm:hidden">Upload</span>
             </TabsTrigger>
             <TabsTrigger value="collection" className="font-medium flex items-center gap-2">

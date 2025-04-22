@@ -1,9 +1,12 @@
 
 import { useState } from "react";
-import { Upload, Files, Database } from "lucide-react";
+import { Upload, Files, Database, BarChart } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
+import DataVisualization from "@/components/DataVisualization";
 
 const demoData = {
   roadGeometry: [
@@ -23,19 +26,81 @@ const demoData = {
   ]
 };
 
+// Extended demo data for analysis
+const extendedDemoData = {
+  trafficTrends: [
+    { month: "January", value: 750 },
+    { month: "February", value: 820 },
+    { month: "March", value: 880 },
+    { month: "April", value: 790 },
+    { month: "May", value: 850 },
+    { month: "June", value: 920 }
+  ],
+  peakHourData: [
+    { hour: "6:00", value: 320 },
+    { hour: "8:00", value: 850 },
+    { hour: "10:00", value: 540 },
+    { hour: "12:00", value: 650 },
+    { hour: "14:00", value: 580 },
+    { hour: "16:00", value: 920 },
+    { hour: "18:00", value: 780 },
+    { hour: "20:00", value: 450 }
+  ],
+  roadSafetyMetrics: [
+    { metric: "Minor Collisions", value: 12 },
+    { metric: "Major Collisions", value: 5 },
+    { metric: "Pedestrian Incidents", value: 8 },
+    { metric: "Vehicle-Vehicle Conflicts", value: 18 }
+  ],
+  congestionFactors: [
+    { factor: "Inadequate Lane Width", percentage: 35 },
+    { factor: "Poor Signal Timing", percentage: 25 },
+    { factor: "Illegal Parking", percentage: 15 },
+    { factor: "Pedestrian Crossings", percentage: 10 },
+    { factor: "Other Factors", percentage: 15 }
+  ]
+};
+
 const DataUploadSection = () => {
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [showDemoData, setShowDemoData] = useState(false);
+  const [showAnalysis, setShowAnalysis] = useState(false);
+  const [processingData, setProcessingData] = useState(false);
+  const [activeData, setActiveData] = useState(extendedDemoData);
+  const { toast } = useToast();
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setUploadedFiles(Array.from(e.target.files));
+      // Reset analysis view when new files are uploaded
+      setShowAnalysis(false);
     }
+  };
+
+  const processData = () => {
+    setProcessingData(true);
+    
+    // Simulate data processing delay
+    setTimeout(() => {
+      setProcessingData(false);
+      setShowAnalysis(true);
+      
+      toast({
+        title: "Data Analysis Complete",
+        description: uploadedFiles.length > 0 
+          ? "Your uploaded data has been processed successfully." 
+          : "Demo data has been analyzed successfully.",
+      });
+      
+      // For demo purposes, we'll always use the demo data
+      // In a real app, you would process the actual uploaded files here
+      setActiveData(extendedDemoData);
+    }, 1500);
   };
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800 border-b pb-2">Data Upload & Demo Access</h2>
+      <h2 className="text-2xl font-bold mb-6 text-gray-800 border-b pb-2">Data Upload & Analysis</h2>
       
       <div className="grid md:grid-cols-2 gap-6 mb-8">
         <Card>
@@ -70,6 +135,14 @@ const DataUploadSection = () => {
                   </ul>
                 </div>
               )}
+              
+              <Button 
+                onClick={processData} 
+                disabled={processingData}
+                className="mt-2 bg-blue-600 hover:bg-blue-700"
+              >
+                {processingData ? "Processing..." : uploadedFiles.length > 0 ? "Analyze Uploaded Data" : "Use Demo Data"}
+              </Button>
             </div>
           </CardContent>
         </Card>
@@ -164,9 +237,24 @@ const DataUploadSection = () => {
                 </div>
               </div>
             )}
+
+            <div className="mt-4">
+              <Button 
+                onClick={processData} 
+                disabled={processingData}
+                className="w-full bg-green-600 hover:bg-green-700 flex items-center gap-2 justify-center"
+              >
+                <BarChart size={16} />
+                {processingData ? "Processing Data..." : "Analyze Demo Data"}
+              </Button>
+            </div>
           </CardContent>
         </Card>
       </div>
+
+      {showAnalysis && (
+        <DataVisualization data={activeData} />
+      )}
     </div>
   );
 };

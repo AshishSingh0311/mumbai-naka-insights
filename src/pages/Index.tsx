@@ -1,7 +1,6 @@
-
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ClipboardList, Database, BarChart, FileText, Users } from "lucide-react";
+import { ClipboardList, Database, BarChart, FileText, Users, Upload } from "lucide-react";
 import DataCollectionSection from "@/components/DataCollectionSection";
 import DataStorageSection from "@/components/DataStorageSection";
 import DataAnalysisSection from "@/components/DataAnalysisSection";
@@ -9,6 +8,7 @@ import ReportGenerationSection from "@/components/ReportGenerationSection";
 import UserAccessSection from "@/components/UserAccessSection";
 import DataFlow from "@/components/DataFlow";
 import StakeholdersSection from "@/components/StakeholdersSection";
+import DataUploadSection from "@/components/DataUploadSection";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -25,9 +25,14 @@ const Index = () => {
         </div>
 
         <Tabs defaultValue="overview" value={activeTab} onValueChange={setActiveTab} className="mb-10">
-          <TabsList className="grid grid-cols-2 md:grid-cols-6 gap-2 mb-8">
+          <TabsList className="grid grid-cols-2 md:grid-cols-7 gap-2 mb-8">
             <TabsTrigger value="overview" className="font-medium">
               Overview
+            </TabsTrigger>
+            <TabsTrigger value="upload" className="font-medium flex items-center gap-2">
+              <Upload size={16} />
+              <span className="hidden sm:inline">Upload Data</span>
+              <span className="sm:hidden">Upload</span>
             </TabsTrigger>
             <TabsTrigger value="collection" className="font-medium flex items-center gap-2">
               <ClipboardList size={16} />
@@ -109,6 +114,10 @@ const Index = () => {
               
               <StakeholdersSection />
             </div>
+          </TabsContent>
+
+          <TabsContent value="upload" className="focus:outline-none">
+            <DataUploadSection />
           </TabsContent>
 
           <TabsContent value="collection" className="focus:outline-none">

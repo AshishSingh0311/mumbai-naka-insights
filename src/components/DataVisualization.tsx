@@ -23,6 +23,8 @@ import {
   Tooltip,
   Legend
 } from "recharts";
+import TrafficHeatmap from "@/components/graphs/TrafficHeatmap";
+import ComparativeAnalysis from "@/components/graphs/ComparativeAnalysis";
 
 interface DataVisualizationProps {
   data: {

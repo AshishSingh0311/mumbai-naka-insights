@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Upload, Files, Database, BarChart } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -58,6 +57,31 @@ const extendedDemoData = {
     { factor: "Illegal Parking", percentage: 15 },
     { factor: "Pedestrian Crossings", percentage: 10 },
     { factor: "Other Factors", percentage: 15 }
+  ],
+  weeklyHeatmap: [
+    { hour: 8, day: "Monday", intensity: 850 },
+    { hour: 9, day: "Monday", intensity: 920 },
+    { hour: 17, day: "Monday", intensity: 880 },
+    { hour: 8, day: "Tuesday", intensity: 830 },
+    { hour: 9, day: "Tuesday", intensity: 890 },
+    { hour: 17, day: "Tuesday", intensity: 850 },
+    { hour: 8, day: "Wednesday", intensity: 870 },
+    { hour: 9, day: "Wednesday", intensity: 940 },
+    { hour: 17, day: "Wednesday", intensity: 890 },
+    { hour: 8, day: "Thursday", intensity: 840 },
+    { hour: 9, day: "Thursday", intensity: 900 },
+    { hour: 17, day: "Thursday", intensity: 860 },
+    { hour: 8, day: "Friday", intensity: 890 },
+    { hour: 9, day: "Friday", intensity: 960 },
+    { hour: 17, day: "Friday", intensity: 920 },
+  ],
+  comparativeData: [
+    { month: "January", currentYear: 750, previousYear: 680, incidents: 5 },
+    { month: "February", currentYear: 820, previousYear: 720, incidents: 4 },
+    { month: "March", currentYear: 880, previousYear: 780, incidents: 6 },
+    { month: "April", currentYear: 790, previousYear: 760, incidents: 3 },
+    { month: "May", currentYear: 850, previousYear: 800, incidents: 5 },
+    { month: "June", currentYear: 920, previousYear: 830, incidents: 7 }
   ]
 };
 
@@ -72,7 +96,6 @@ const DataUploadSection = () => {
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setUploadedFiles(Array.from(e.target.files));
-      // Reset analysis view when new files are uploaded
       setShowAnalysis(false);
     }
   };
@@ -80,7 +103,6 @@ const DataUploadSection = () => {
   const processData = () => {
     setProcessingData(true);
     
-    // Simulate data processing delay
     setTimeout(() => {
       setProcessingData(false);
       setShowAnalysis(true);
@@ -92,8 +114,6 @@ const DataUploadSection = () => {
           : "Demo data has been analyzed successfully.",
       });
       
-      // For demo purposes, we'll always use the demo data
-      // In a real app, you would process the actual uploaded files here
       setActiveData(extendedDemoData);
     }, 1500);
   };

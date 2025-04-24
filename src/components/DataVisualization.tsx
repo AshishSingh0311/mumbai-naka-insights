@@ -1,4 +1,3 @@
-
 import { TrendingUp, AlertTriangle, ThumbsUp, TrendingDown, ChartBar, ChartPie } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -31,16 +30,16 @@ interface DataVisualizationProps {
     peakHourData: { hour: string; value: number }[];
     roadSafetyMetrics: { metric: string; value: number }[];
     congestionFactors: { factor: string; percentage: number }[];
+    weeklyHeatmap: { hour: number; day: string; intensity: number }[];
+    comparativeData: { month: string; currentYear: number; previousYear: number; incidents: number }[];
   };
 }
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
 
 const DataVisualization = ({ data }: DataVisualizationProps) => {
-  // Find peak traffic hours (hours with value > 800)
   const peakHours = data.peakHourData.filter(item => item.value > 800).map(item => item.hour);
   
-  // Determine congestion trend (increasing or decreasing)
   const trafficValues = data.trafficTrends.map(item => item.value);
   const firstHalf = trafficValues.slice(0, Math.floor(trafficValues.length / 2));
   const secondHalf = trafficValues.slice(Math.floor(trafficValues.length / 2));
@@ -48,10 +47,8 @@ const DataVisualization = ({ data }: DataVisualizationProps) => {
   const secondHalfAvg = secondHalf.reduce((a, b) => a + b, 0) / secondHalf.length;
   const trendIncreasing = secondHalfAvg > firstHalfAvg;
   
-  // Determine primary safety concern
   const primarySafetyConcern = [...data.roadSafetyMetrics].sort((a, b) => b.value - a.value)[0];
   
-  // Determine main congestion factor
   const mainCongestionFactor = [...data.congestionFactors].sort((a, b) => b.percentage - a.percentage)[0];
 
   return (
@@ -123,6 +120,7 @@ const DataVisualization = ({ data }: DataVisualizationProps) => {
       <Tabs defaultValue="charts" className="space-y-4">
         <TabsList>
           <TabsTrigger value="charts">Charts & Visualizations</TabsTrigger>
+          <TabsTrigger value="advanced">Advanced Analysis</TabsTrigger>
           <TabsTrigger value="recommendations">Recommendations</TabsTrigger>
         </TabsList>
         
@@ -225,6 +223,13 @@ const DataVisualization = ({ data }: DataVisualizationProps) => {
                 </div>
               </CardContent>
             </Card>
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="advanced" className="space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <TrafficHeatmap data={data.weeklyHeatmap} />
+            <ComparativeAnalysis data={data.comparativeData} />
           </div>
         </TabsContent>
         
